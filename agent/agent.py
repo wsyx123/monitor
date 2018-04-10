@@ -62,6 +62,7 @@ class AgentService(object):
         self.configobj = None
         self.status = ""
         self.interval = ""
+        self.host = None
         self.serverHost = None
         self.serverPort = None
         self.serverContext = None
@@ -70,6 +71,7 @@ class AgentService(object):
     def init_env(self):
         self.configobj = confParse(self.config)
         self.status = self.configobj.get_val('status','status')
+        self.host = self.configobj.get_val('host','host')
         self.serverHost = self.configobj.get_val('server_api','host')
         self.serverPort = self.configobj.get_val('server_api','port')
         self.serverContext = self.configobj.get_val('server_api','context')
@@ -149,6 +151,7 @@ class AgentService(object):
                         monitor_data[key][card] = excute(card)
                 else:
                     monitor_data[key]= excute()
+        monitor_data['host']=self.host
         print monitor_data
         self.post_data(json.dumps(monitor_data))
 
